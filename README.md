@@ -60,3 +60,12 @@ Repeated failed login attempts can be a sign of suspicious activity, but they ar
 
 Current Phase: Parsing login records  
 Next Phase: Counting successful and failed login attempts
+
+→ read file
+→ clean each line
+→ split fields
+→ count total attempts
+→ count success/failure
+→ track failures by IP
+→ compare against threshold
+→ flag suspicious IPs

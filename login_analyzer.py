@@ -5,7 +5,9 @@ total_attempts = 0
 successful_logins = 0
 failed_logins = 0
 failed_attempts_by_ip = {}
+f_login_threshold = 3
 
+#for loop code
 file1 = open("login_attempts.txt", "r")
 for line in file1:
     total_attempts += 1
@@ -18,8 +20,10 @@ for line in file1:
     
     if status == "SUCCESS":
         successful_logins += 1
-    else:
+    elif status == "FAILED":
         failed_logins += 1
+    else:
+        pass
 
     if status == "FAILED":
         if ip_address in failed_attempts_by_ip:
@@ -35,10 +39,20 @@ for line in file1:
     print("-" * 40)
 #print(file1.read())
 
+for key, value in failed_attempts_by_ip.items():
+    #print(f"{key}, {value} -> failed attempts")
+
+    if value >= 5:
+        print(f"CRITICAL! Suspicious IP -> {key} | Failed Attempts: {value}")
+    elif value >= f_login_threshold:
+        print(f"Warning! Suspicious IP -> {key} | Failed Attempts: {value}")
+    else:
+        pass
+
 file1.close()
 
 
-print("Total Login Attempts: ", total_attempts)
-print("Successful Logins: ", successful_logins)
-print("Failed Logins: ", failed_logins)
-print(failed_attempts_by_ip)
+print("Total Login Attempts:", total_attempts)
+print("Successful Logins:", successful_logins)
+print("Failed Logins:", failed_logins)
+#print(failed_attempts_by_ip)
