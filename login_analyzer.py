@@ -56,10 +56,10 @@ def log_analyzer(filename):
     
         if value >= 5:
             alerts.append(f"CRITICAL! Suspicious IP -> {key} | Failed Attempts: {value}")
-            #print(f"CRITICAL! Suspicious IP -> {key} | Failed Attempts: {value}")
+            print(f"CRITICAL! Suspicious IP -> {key} | Failed Attempts: {value}")
         elif value >= f_login_threshold:
             alerts.append(f"Warning! Suspicious IP -> {key} | Failed Attempts: {value}")
-            #print(f"Warning! Suspicious IP -> {key} | Failed Attempts: {value}")
+            print(f"Warning! Suspicious IP -> {key} | Failed Attempts: {value}")
         else:
             pass
 
@@ -71,5 +71,5 @@ def log_analyzer(filename):
 total, passed_logins, failed, failed_by_ip, al = log_analyzer("login_attemptsPT.1.txt")
 #print "al" is just to see if the alerts variable is storing the alerst I have created within
 #the if statements above.
-print(al)
-log_analyzer("login_attempts_PT.2.txt")
+#print(al)
+log_analyzer("login_attemptsPT.2.txt")
