@@ -1,5 +1,6 @@
 # Project 02 - Failed Login Attempt Analyzer
-# Purpose: Analyze login attempt records to identify failed logins and detect repeated or suspicious login activity.
+# Purpose: Analyze login attempt records to identify failed logins and detect repeated or 
+# suspicious login activity.
 
 
 def log_analyzer(filename):
@@ -8,6 +9,7 @@ def log_analyzer(filename):
     successful_logins = 0
     failed_logins = 0
     failed_attempts_by_ip = {}
+    alerts = []
     f_login_threshold = 3
 
     file1 = open(filename, "r")
@@ -19,6 +21,7 @@ def log_analyzer(filename):
         ip_address = parts[1]
         username = parts[2]
         status = parts[3]
+    
         
         if status == "SUCCESS":
             successful_logins += 1
@@ -43,27 +46,30 @@ def log_analyzer(filename):
 
     print("-" * 23 + " LOG RESULTS " + "-" * 23)
 
-    print("Total Login Attempts:", total_attempts)
-    print("Successful Logins:", successful_logins)
-    print("Failed Logins:", failed_logins)
+    #print("Total Login Attempts:", total_attempts)
+    #print("Successful Logins:", successful_logins)
+    #print("Failed Logins:", failed_logins)
     #print(failed_attempts_by_ip)
 
     for key, value in failed_attempts_by_ip.items():
         #print(f"{key}, {value} -> failed attempts")
     
         if value >= 5:
-            print(f"CRITICAL! Suspicious IP -> {key} | Failed Attempts: {value}")
+            alerts.append(f"CRITICAL! Suspicious IP -> {key} | Failed Attempts: {value}")
+            #print(f"CRITICAL! Suspicious IP -> {key} | Failed Attempts: {value}")
         elif value >= f_login_threshold:
-            print(f"Warning! Suspicious IP -> {key} | Failed Attempts: {value}")
+            alerts.append(f"Warning! Suspicious IP -> {key} | Failed Attempts: {value}")
+            #print(f"Warning! Suspicious IP -> {key} | Failed Attempts: {value}")
         else:
             pass
 
     file1.close()
 
-
-
-   
+    return total_attempts, successful_logins, failed_logins, failed_attempts_by_ip, alerts
     
 #Calling the functions to scan logs
-log_analyzer("login_attempts_AM.txt")
-log_analyzer("login_attempts_PM.txt")
+total, passed_logins, failed, failed_by_ip, al = log_analyzer("login_attemptsPT.1.txt")
+#print "al" is just to see if the alerts variable is storing the alerst I have created within
+#the if statements above.
+print(al)
+log_analyzer("login_attempts_PT.2.txt")

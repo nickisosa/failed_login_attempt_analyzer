@@ -1,1 +1,47 @@
 #Here I'll add bugs encountered while writing code.
+
+### Bug 1 — If Statements Placed Outside the Correct Loop Area
+
+One issue I ran into was placing some of my `if` statements in the wrong location. Because they were 
+positioned before the variables inside the loop were being processed, the program only displayed 
+certain parts of the output and did not evaluate the full login record correctly.
+
+I fixed this by moving the `if` statements inside the loop after the timestamp, IP address, 
+username, and status variables were created. Once the statements were moved, the program was 
+able to process each record correctly and display the expected results.
+
+### Bug 2 — Case-Sensitive Status Comparison
+
+Another issue occurred when the program was not counting successful login attempts correctly. 
+My condition checked for `"Success"`, but the login file stored the status as `"SUCCESS"` in all 
+uppercase letters.
+
+Python string comparisons are case-sensitive, so the two values did not match. 
+I corrected the condition so it matched the exact format used in the log file. 
+After the change, the successful-login counter worked correctly.
+
+### Bug 3 — Dictionary Replaced With an Integer
+
+While testing the failed-login counters, I printed the dictionary to verify that IP addresses were 
+being stored and counted correctly. During this process, I received an error stating that an integer 
+was not iterable or could not be used as a container.
+
+The problem occurred because I accidentally replaced the entire dictionary with the value `1` 
+instead of assigning `1` to a specific IP address inside the dictionary. 
+I corrected the code so each IP address became a dictionary key with its failed-login 
+count stored as the value. After fixing this, the dictionary correctly tracked and counted 
+failed attempts by IP address.
+
+### Bug 4 — Incorrect Else Logic for Failed Logins
+
+Another issue I found was in the logic used to count failed login attempts. The original 
+condition checked whether the status was `"SUCCESS"`, and the `else` statement automatically 
+counted every other status as a failed login.
+
+This meant that statuses such as `"UNKNOWN"` or `"ERROR"` would also be counted as failures, 
+even though they were not actual failed login attempts. I corrected the logic by changing 
+the `else` statement to an `elif` that specifically checks for `"FAILED"`.
+
+This made the counter more accurate because only records with a status of `"FAILED"` 
+are included in the failed-login total, while other unexpected statuses 
+are ignored or can be handled separately.
