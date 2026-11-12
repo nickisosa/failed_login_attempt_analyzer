@@ -10,7 +10,7 @@ def log_analyzer(filename):
     failed_logins = 0
     failed_attempts_by_ip = {}
     alerts = []
-    f_login_threshold = 3
+    failed_login_threshold = 3
 
     file1 = open(filename, "r")
     for line in file1:
@@ -44,7 +44,7 @@ def log_analyzer(filename):
         #print("-" * 40)
     #print(file1.read())
 
-    print("-" * 23 + " LOG RESULTS " + "-" * 23)
+    #print("-" * 23 + " LOG RESULTS " + "-" * 23)
 
     #print("Total Login Attempts:", total_attempts)
     #print("Successful Logins:", successful_logins)
@@ -56,10 +56,10 @@ def log_analyzer(filename):
     
         if value >= 5:
             alerts.append(f"CRITICAL! Suspicious IP -> {key} | Failed Attempts: {value}")
-            print(f"CRITICAL! Suspicious IP -> {key} | Failed Attempts: {value}")
-        elif value >= f_login_threshold:
+            #print(f"CRITICAL! Suspicious IP -> {key} | Failed Attempts: {value}")
+        elif value >= failed_login_threshold:
             alerts.append(f"Warning! Suspicious IP -> {key} | Failed Attempts: {value}")
-            print(f"Warning! Suspicious IP -> {key} | Failed Attempts: {value}")
+            #print(f"Warning! Suspicious IP -> {key} | Failed Attempts: {value}")
         else:
             pass
 
@@ -72,4 +72,28 @@ total, passed_logins, failed, failed_by_ip, al = log_analyzer("login_attemptsPT.
 #print "al" is just to see if the alerts variable is storing the alerst I have created within
 #the if statements above.
 #print(al)
-log_analyzer("login_attemptsPT.2.txt")
+#log_analyzer("login_attemptsPT.2.txt")
+    
+    
+def display_results(total, passed_logins, failed, failed_by_ip, al):
+    
+    print ("-" * 23 + " LOG RESULTS " + "-" * 23)
+
+    print(f"Total Login Attempts: {total}") 
+    print(f"Successful Logins: {passed_logins}") 
+    print(f"Failed Logins: {failed}")
+
+    print ("-" * 18 + " FAILED ATTEMPTS BY IP " + "-" * 18)
+
+    for IP, count in failed_by_ip.items():
+        print(f"IP Address: {IP} | Failed Attempts: {count}")
+
+    print ("-" * 26 + " ALERTS " + "-" * 26)
+
+    for alert in al:
+        print(alert)
+
+display_results(total, passed_logins, failed, failed_by_ip, al)
+
+total2, passed_logins2, failed2, failed_by_ip2, al2 = log_analyzer("login_attemptsPT.2.txt")
+display_results(total2, passed_logins2, failed2, failed_by_ip2, al2)
